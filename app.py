@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, request
 from config import Config
 from models import db, Product
 
@@ -18,6 +18,15 @@ def product_detail(product_id):
     if product is None:
         abort(404)
     return render_template("product_detail.html", product=product)
+
+@app.route("/compare")
+def compare():
+    ids = request.args.get("ids")
+    if ids is None:
+        abort(404)
+    product_ids = [int(product_id) for product_id in ids.split(",")]
+    products = Product.query.filter(Product.id.in_(product_ids)).all()
+    return render_template("compare.html", products=products)
 
 if __name__ == "__main__":
     app.run(debug=True)
