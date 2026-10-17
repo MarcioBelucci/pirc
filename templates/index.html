@@ -2,25 +2,52 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>ShopWise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopWise-Index</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/styles/style.css') }}">
+    <script src="{{ url_for('static', filename='static/scripts/main.js') }}" defer></script>
 </head>
 <body>
-    <form action="/compare" method="get">
-        <h1>ShopWise - Produtos</h1>
-
-        {% for product in products %}
-            <div>
-                <h2>{{ product.name }}</h2>
-                <p>{{ product.description }}</p>
-                <p>Preço: R$ {{ product.price }}</p>
-                <p>Categoria: {{ product.category }}</p>
-                <p>Nota: {{ product.score }}</p>
-            </div>
-            <label>Selecionar produto<input type="checkbox" name="ids" value="{{ product.id }}"></label>
-            <hr>
-        {% endfor %}
+    <header>
+        <div class="header-inner">
+      <div class="brand">
+        <img src="images/logo.webp" alt="Piracicaba Lures Anglers logo" width="75" height="75">
+        <span>Comparador</span>
+      </div>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav">☰ Menu</button>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="compare.html">Comparar</a></li>
+          <li><a href="#">Teste</a></li>
+          <li><a href="#">Teste 2</a></li>
+        </ul>
+      </nav>
+    </div>
+    </header>
+    <main>
+        <h1>Bem-vindo ao ShopWise</h1>
+        <p>Compare produtos de diferentes categorias e encontre o melhor para você!</p>
+        <form action="/compare" method="get">
+            <h1>ShopWise - Produtos</h1>
     
-        <button type="submit">Comparar Produtos</button>
-    </form>
+            {% for product in products %}
+                <div>
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description }}</p>
+                    <p>Preço: R$ {{ product.price }}</p>
+                    <p>Categoria: {{ product.category }}</p>
+                    <p>Nota: {{ product.score }}</p>
+                </div>
+                <label>Selecionar produto<input type="checkbox" name="ids" value="{{ product.id }}"></label>
+                <hr>
+            {% endfor %}
+        
+            <button type="submit" disabled>Comparar Produtos</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2023 ShopWise. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>
