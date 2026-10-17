@@ -21,10 +21,10 @@ def product_detail(product_id):
 
 @app.route("/compare")
 def compare():
-    ids = request.args.get("ids")
-    if ids is None:
+    ids = request.args.getlist("ids")
+    if not ids:
         abort(404)
-    product_ids = [int(product_id) for product_id in ids.split(",")]
+    product_ids = [int(parte) for item in ids for parte in item.split(",")]
     products = Product.query.filter(Product.id.in_(product_ids)).all()
     return render_template("compare.html", products=products)
 

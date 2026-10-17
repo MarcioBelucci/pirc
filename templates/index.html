@@ -5,17 +5,22 @@
     <title>ShopWise</title>
 </head>
 <body>
-    <h1>ShopWise - Produtos</h1>
+    <form action="/compare" method="get">
+        <h1>ShopWise - Produtos</h1>
 
-    {% for product in products %}
-        <div>
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
-            <p>Preço: R$ {{ product.price }}</p>
-            <p>Categoria: {{ product.category }}</p>
-            <p>Nota: {{ product.score }}</p>
-        </div>
-        <hr>
-    {% endfor %}
+        {% for product in products %}
+            <div>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <p>Preço: R$ {{ product.price }}</p>
+                <p>Categoria: {{ product.category }}</p>
+                <p>Nota: {{ product.score }}</p>
+            </div>
+            <label>Selecionar produto<input type="checkbox" name="ids" value="{{ product.id }}"></label>
+            <hr>
+        {% endfor %}
+    
+        <button type="submit">Comparar Produtos</button>
+    </form>
 </body>
 </html>
