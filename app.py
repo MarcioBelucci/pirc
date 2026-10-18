@@ -10,7 +10,7 @@ db.init_app(app)
 @app.route("/")
 def home():
     product_list = Product.query.all()
-    return render_template("templates/index.html", products=product_list)
+    return render_template("index.html", products=product_list)
 
 @app.route("/product/<int:product_id>")
 def product_detail(product_id):
