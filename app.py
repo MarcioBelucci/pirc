@@ -22,9 +22,12 @@ def product_detail(product_id):
 @app.route("/compare")
 def compare():
     ids = request.args.getlist("ids")
-    if not ids:
-        abort(404)
-    product_ids = [int(parte) for item in ids for parte in item.split(",")]
+    try:
+        product_ids = set([int(parte) for item in ids for parte in item.split(",")])
+    except ValueError:
+        abort(400)
+    if not 2 <= len(product_ids) <= 3:
+        abort(400)
     products = Product.query.filter(Product.id.in_(product_ids)).all()
     return render_template("compare.html", products=products)
 
