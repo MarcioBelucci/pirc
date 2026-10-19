@@ -29,6 +29,8 @@ def compare():
     if not 2 <= len(product_ids) <= 3:
         abort(400)
     products = Product.query.filter(Product.id.in_(product_ids)).all()
+    if len(products) != len(product_ids):
+        abort(404)
     return render_template("compare.html", products=products)
 
 if __name__ == "__main__":
