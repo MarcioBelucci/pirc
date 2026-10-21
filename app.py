@@ -32,11 +32,12 @@ def compare():
     products = Product.query.filter(Product.id.in_(product_ids)).all()
     if len(products) != len(product_ids):
         abort(404)
+    lowest_price = min(p.price for p in products)
+    highest_price = max(p.price for p in products)
+    price_scores = {}
     for product in products:
-        lowest_price = min(p.price for p in products)
-        highest_price = max(p.price for p in products)
-        product.score = price_score(product.price, lowest_price, highest_price)
-    return render_template("compare.html", products=products)
+        price_scores[product.id] = price_score(product.price, lowest_price, highest_price)
+    return render_template("compare.html", products=products, price_scores=price_scores)
 
 if __name__ == "__main__":
     app.run(debug=True)
