@@ -1,7 +1,7 @@
 from flask import Flask, render_template, abort, request
 from config import Config
 from models import db, Product
-from scoring import price_score
+from scoring import price_score, final_score, PROFILES
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -23,6 +23,9 @@ def product_detail(product_id):
 @app.route("/compare")
 def compare():
     ids = request.args.getlist("ids")
+    profile = request.args.get("profile", "balanced")
+    if profile not in PROFILES:
+        abort(400)
     try:
         product_ids = set([int(parte) for item in ids for parte in item.split(",")])
     except ValueError:
@@ -35,9 +38,11 @@ def compare():
     lowest_price = min(p.price for p in products)
     highest_price = max(p.price for p in products)
     price_scores = {}
+    final_scores = {}
     for product in products:
         price_scores[product.id] = price_score(product.price, lowest_price, highest_price)
-    return render_template("compare.html", products=products, price_scores=price_scores)
+        final_scores[product.id] = final_score(price_scores[product.id], product.score, profile)
+    return render_template("compare.html", products=products, price_scores=price_scores, final_scores=final_scores)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -17,9 +17,19 @@
             <div class="product-card">
                 <h2>{{ product.name }}</h2>
                 <p>{{ product.description }}</p>
-                <p>Preço: R$ {{ product.price }} - {{ price_scores[product.id] }}</p>
+                <p>Preço: R$ {{ product.price }}</p>
+                <p>Nota de preço: {{ price_scores[product.id] }}</p>
                 <p>Categoria: {{ product.category }}</p>
+                {% if product.score is none %}
+                <p class="inactive">Nota: sem avaliações ainda</p>
+                {% else %}
                 <p>Nota: {{ product.score }}</p>
+                {% endif %}
+                {% if final_scores[product.id] is none %}  
+                <p class="inactive">Nota final: sem avaliações ainda</p>
+                {% else %}
+                <p>Nota final: {{ final_scores[product.id] }}</p>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
